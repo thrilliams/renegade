@@ -300,6 +300,19 @@ export const resolveOperator = (
 		return array.includes(item);
 	}
 
+	if ('$indexOfArray' in operator) {
+		const value = resolveOperator(operator.$indexOfArray, data, context);
+
+		assertTuple(value, 2, 4);
+		const [arrayExpression, searchExpression, start, end] = value;
+
+		assertArray(arrayExpression);
+		if (start !== undefined) assertInteger(start);
+		if (end !== undefined) assertInteger(end);
+
+		return arrayExpression.slice(start, end).indexOf(searchExpression);
+	}
+
 	if ('$isArray' in operator) {
 		const value = resolveOperator(operator.$isArray, data, context);
 		return value instanceof Array;
