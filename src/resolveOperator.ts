@@ -3,6 +3,7 @@ import {
 	assertBoolean,
 	assertInteger,
 	assertKeys,
+	assertNotNull,
 	assertNumber,
 	assertObject,
 	assertString,
@@ -488,17 +489,17 @@ export const resolveOperator = (
 						(typeof bValue === 'number' || typeof bValue === 'boolean')
 					) {
 						if (sortBy[key] === 1) {
-							store += (bValue as number) - (aValue as number);
-						} else {
 							store += (aValue as number) - (bValue as number);
+						} else {
+							store += (bValue as number) - (aValue as number);
 						}
 					}
 
 					if (typeof aValue === 'string' && typeof bValue === 'string') {
 						if (sortBy[key] === 1) {
-							store += bValue.localeCompare(aValue);
-						} else {
 							store += aValue.localeCompare(bValue);
+						} else {
+							store += bValue.localeCompare(aValue);
 						}
 					}
 				}
@@ -545,6 +546,296 @@ export const resolveOperator = (
 			array.push(entry);
 		}
 		return array;
+	}
+
+	// Boolean Expression Operators
+	if ('$and' in operator) {
+		const value = resolveOperator(operator.$and, data, context);
+		assertArray(value);
+		return value.every((item) => {
+			assertBoolean(item);
+			return item;
+		});
+	}
+
+	if ('$not' in operator) {
+		const value = resolveOperator(operator.$not, data, context);
+		assertTuple(value, 1);
+
+		const [param] = value;
+		assertBoolean(param);
+		return !param;
+	}
+
+	if ('$or' in operator) {
+		const value = resolveOperator(operator.$or, data, context);
+		assertArray(value);
+		return value.some((item) => {
+			assertBoolean(item);
+			return item;
+		});
+	}
+
+	// Comparison Expression Operators
+	if ('$cmp' in operator) {
+		const value = resolveOperator(operator.$cmp, data, context);
+		assertTuple(value, 2);
+
+		const [first, second] = value;
+		if (first === second || first === null || second === null) return 0;
+		if (first > second) return 1;
+		if (first < second) return -1;
+	}
+
+	if ('$eq' in operator) {
+		const value = resolveOperator(operator.$eq, data, context);
+		assertTuple(value, 2);
+
+		const [first, second] = value;
+		return first === second;
+	}
+
+	if ('$gt' in operator) {
+		const value = resolveOperator(operator.$gt, data, context);
+		assertTuple(value, 2);
+
+		const [first, second] = value;
+		assertNotNull(first);
+		assertNotNull(second);
+		return first > second;
+	}
+
+	if ('$gte' in operator) {
+		const value = resolveOperator(operator.$gte, data, context);
+		assertTuple(value, 2);
+
+		const [first, second] = value;
+		assertNotNull(first);
+		assertNotNull(second);
+		return first >= second;
+	}
+
+	if ('$lt' in operator) {
+		const value = resolveOperator(operator.$lt, data, context);
+		assertTuple(value, 2);
+
+		const [first, second] = value;
+		assertNotNull(first);
+		assertNotNull(second);
+		return first < second;
+	}
+
+	if ('$lte' in operator) {
+		const value = resolveOperator(operator.$lte, data, context);
+		assertTuple(value, 2);
+
+		const [first, second] = value;
+		assertNotNull(first);
+		assertNotNull(second);
+		return first <= second;
+	}
+
+	if ('$ne' in operator) {
+		const value = resolveOperator(operator.$ne, data, context);
+		assertTuple(value, 2);
+
+		const [first, second] = value;
+		return first !== second;
+	}
+
+	// Conditional Expression Operators
+	if ('$cond' in operator) {
+		const value = resolveOperator(operator.$cond, data, context);
+		if (typeof value !== 'object') throw `$cond must be an array or an object!`;
+
+		let ifParam, thenParam, elseParam;
+		if (value instanceof Array) {
+			assertTuple(value, 3);
+			[ifParam, thenParam, elseParam] = value;
+		} else {
+			assertKeys(value, ['if', 'then', 'else']);
+			ifParam = value.if;
+			thenParam = value.then;
+			elseParam = value.else;
+		}
+
+		assertBoolean(ifParam);
+		return ifParam ? thenParam : elseParam;
+	}
+
+	if ('$ifNull' in operator) {
+		const value = resolveOperator(operator.$ifNull, data, context);
+		assertArray(value);
+		if (value.length < 2) throw `$ifNull requires at least parameters!`;
+		for (let i = 0; i < value.length; i++) {
+			if (i === value.length - 1 || value !== null) return value;
+		}
+	}
+
+	if ('$switch' in operator) {
+		const value = resolveOperator(operator.$switch, data, context);
+		assertKeys(value, ['branches'], ['default']);
+
+		const { branches, default: defaultParam } = value;
+
+		assertArray(branches);
+		for (const branch of branches) {
+			assertKeys(branch, ['case', 'then']);
+			const { case: caseParam, then } = branch;
+			assertBoolean(caseParam);
+			if (caseParam) return then;
+		}
+
+		if (defaultParam === undefined)
+			throw `$switch terminated without a valid branch and without a value for "default"!`;
+		return defaultParam;
+	}
+
+	// Literal Expression Operator
+	if ('$literal' in operator) {
+		return operator.$literal;
+	}
+
+	// Miscellaneous Operators
+	if ('$getField' in operator) {
+		const value = resolveOperator(operator.$getField, data, context);
+		assertKeys(value, ['field', 'input']);
+
+		const { field, input } = value;
+		assertString(field);
+		if (typeof input !== 'object') throw `$getField input param must not be a primitive value!`;
+
+		return resolveDotNotation(input, field);
+	}
+
+	if ('$rand' in operator) {
+		const value = resolveOperator(operator.$rand, data, context);
+		assertKeys(value, []);
+		return Math.random();
+	}
+
+	// Object Expression Operators
+	if ('$mergeObjects' in operator) {
+		const value = resolveOperator(operator.$mergeObjects, data, context);
+		assertArray(value);
+
+		let obj: JsonSerializable = {};
+		for (const item of value) {
+			assertObject(item);
+			obj = { ...obj, ...item };
+		}
+		return obj;
+	}
+
+	// Set Expression Operators
+	if ('$allElementsTrue' in operator) {
+		const value = resolveOperator(operator.$allElementsTrue, data, context);
+		assertTuple(value, 1);
+
+		const [expression] = value;
+		assertArray(expression);
+
+		const set = new Set(expression);
+		for (const entry of set) {
+			if (entry === false || entry === null || entry === 0) return false;
+		}
+		return true;
+	}
+
+	if ('$anyElementTrue' in operator) {
+		const value = resolveOperator(operator.$anyElementTrue, data, context);
+		assertTuple(value, 1);
+
+		const [expression] = value;
+		assertArray(expression);
+
+		const set = new Set(expression);
+		for (const entry of set) {
+			if (entry !== false && entry !== null && entry !== 0) return true;
+		}
+		return false;
+	}
+
+	if ('$setDifference' in operator) {
+		const value = resolveOperator(operator.$setDifference, data, context);
+		assertTuple(value, 2);
+
+		const [firstArray, secondArray] = value;
+		assertArray(firstArray);
+		assertArray(secondArray);
+
+		const first = new Set(firstArray);
+		const second = new Set(secondArray);
+
+		return [...first].filter((item) => second.has(item));
+	}
+
+	if ('$setEquals' in operator) {
+		const value = resolveOperator(operator.$setEquals, data, context);
+		assertArray(value);
+
+		const [firstArray, ...restArrays] = value;
+		assertArray(firstArray);
+
+		const first = new Set(firstArray);
+		for (const array of restArrays) {
+			assertArray(array);
+			const set = new Set(array);
+			if (first.size !== set.size) return false;
+			if ([...first].some((item) => !set.has(item))) return false;
+		}
+
+		return true;
+	}
+
+	if ('$setIntersection' in operator) {
+		const value = resolveOperator(operator.$setIntersection, data, context);
+		assertArray(value);
+
+		const [firstArray, ...restArrays] = value;
+		assertArray(firstArray);
+
+		const first = new Set(firstArray);
+		for (const array of restArrays) {
+			assertArray(array);
+			const set = new Set(array);
+			for (const item of first) {
+				if (!set.has(item)) first.delete(item);
+			}
+		}
+
+		return [...first];
+	}
+
+	if ('$setIsSubset' in operator) {
+		const value = resolveOperator(operator.$setIsSubset, data, context);
+		assertTuple(value, 2);
+
+		const [firstArray, secondArray] = value;
+		assertArray(firstArray);
+		assertArray(secondArray);
+
+		const first = new Set(firstArray);
+		const second = new Set(secondArray);
+
+		return [...first].every((item) => second.has(item));
+	}
+
+	if ('$setUnion' in operator) {
+		const value = resolveOperator(operator.$setUnion, data, context);
+		assertArray(value);
+
+		const [firstArray, ...restArrays] = value;
+		assertArray(firstArray);
+
+		const first = new Set(firstArray);
+		for (const array of restArrays) {
+			assertArray(array);
+			const set = new Set(array);
+			for (const item of set) first.add(item);
+		}
+
+		return [...first];
 	}
 
 	// v has 1 key, but it isn't an operator; just return it
