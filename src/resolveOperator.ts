@@ -851,6 +851,21 @@ export const resolveOperator = (
 		return [...first];
 	}
 
+	// Variable Expression Operators
+	if ('$let' in operator) {
+		assertKeys(operator.$let, ['vars', 'in']);
+		const { vars: varsOp, in: inOp } = operator.$let;
+
+		const vars = resolveOperator(varsOp, data, context);
+		assertObject(vars);
+
+		// this is dumb
+		return resolveOperator(inOp, data, {
+			...context,
+			...(vars as Record<string, JsonSerializable>)
+		});
+	}
+
 	// v has 1 key, but it isn't an operator; just return it
 	return resolveObject(operator, data, context);
 };

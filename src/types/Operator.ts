@@ -307,188 +307,192 @@ export type Operator =
 	// Returns true if all elements of the first set appear in the second set, including when the first set equals the second set; i.e. not a strict subset. Accepts exactly two argument expressions.
 	| { $setIsSubset: [Operator, Operator] }
 	// Returns a set with elements that appear in any of the input sets.
-	| { $setUnion: Operator[] };
+	| { $setUnion: Operator[] }
 
-//// String Expression Operators
-/// String expressions, with the exception of $concat, only have a well-defined behavior for strings of ASCII characters.
-// Concatenates any number of strings.
-// $concat
-// Converts a date/time string to a date object.
-// $dateFromString
-// Returns the date as a formatted string.
-// $dateToString
-// Searches a string for an occurrence of a substring and returns the UTF-8 byte index of the first occurrence. If the substring is not found, returns -1.
-// $indexOfBytes
-// Searches a string for an occurrence of a substring and returns the UTF-8 code point index of the first occurrence. If the substring is not found, returns -1
-// $indexOfCP
-// Removes whitespace or the specified characters from the beginning of a string. New in version 4.0.
-// $ltrim
-// Applies a regular expression (regex) to a string and returns information on the first matched substring. New in version 4.2.
-// $regexFind
-// Applies a regular expression (regex) to a string and returns information on the all matched substrings. New in version 4.2.
-// $regexFindAll
-// Applies a regular expression (regex) to a string and returns a boolean that indicates if a match is found or not. New in version 4.2.
-// $regexMatch
-// Replaces the first instance of a matched string in a given input. New in version 4.4.
-// $replaceOne
-// Replaces all instances of a matched string in a given input. New in version 4.4.
-// $replaceAll
-// Removes whitespace or the specified characters from the end of a string. New in version 4.0.
-// $rtrim
-// Splits a string into substrings based on a delimiter. Returns an array of substrings. If the delimiter is not found within the string, returns an array containing the original string.
-// $split
-// Returns the number of UTF-8 encoded bytes in a string.
-// $strLenBytes
-// Returns the number of UTF-8 code points in a string.
-// $strLenCP
-// Performs case-insensitive string comparison and returns: 0 if two strings are equivalent, 1 if the first string is greater than the second, and -1 if the first string is less than the second.
-// $strcasecmp
-// Deprecated. Use $substrBytes or $substrCP.
-// $substr
-// Returns the substring of a string. Starts with the character at the specified UTF-8 byte index (zero-based) in the string and continues for the specified number of bytes.
-// $substrBytes
-// Returns the substring of a string. Starts with the character at the specified UTF-8 code point (CP) index (zero-based) in the string and continues for the number of code points specified.
-// $substrCP
-// Converts a string to lowercase. Accepts a single argument expression.
-// $toLower
-// Converts value to a string. New in version 4.0.
-// $toString
-// Removes whitespace or the specified characters from the beginning and end of a string. New in version 4.0.
-// $trim
-// Converts a string to uppercase. Accepts a single argument expression.
-// $toUpper
+	//// String Expression Operators
+	/// String expressions, with the exception of $concat, only have a well-defined behavior for strings of ASCII characters.
+	// Concatenates any number of strings.
+	// $concat
+	// Converts a date/time string to a date object.
+	// $dateFromString
+	// Returns the date as a formatted string.
+	// $dateToString
+	// Searches a string for an occurrence of a substring and returns the UTF-8 byte index of the first occurrence. If the substring is not found, returns -1.
+	// $indexOfBytes
+	// Searches a string for an occurrence of a substring and returns the UTF-8 code point index of the first occurrence. If the substring is not found, returns -1
+	// $indexOfCP
+	// Removes whitespace or the specified characters from the beginning of a string. New in version 4.0.
+	// $ltrim
+	// Applies a regular expression (regex) to a string and returns information on the first matched substring. New in version 4.2.
+	// $regexFind
+	// Applies a regular expression (regex) to a string and returns information on the all matched substrings. New in version 4.2.
+	// $regexFindAll
+	// Applies a regular expression (regex) to a string and returns a boolean that indicates if a match is found or not. New in version 4.2.
+	// $regexMatch
+	// Replaces the first instance of a matched string in a given input. New in version 4.4.
+	// $replaceOne
+	// Replaces all instances of a matched string in a given input. New in version 4.4.
+	// $replaceAll
+	// Removes whitespace or the specified characters from the end of a string. New in version 4.0.
+	// $rtrim
+	// Splits a string into substrings based on a delimiter. Returns an array of substrings. If the delimiter is not found within the string, returns an array containing the original string.
+	// $split
+	// Returns the number of UTF-8 encoded bytes in a string.
+	// $strLenBytes
+	// Returns the number of UTF-8 code points in a string.
+	// $strLenCP
+	// Performs case-insensitive string comparison and returns: 0 if two strings are equivalent, 1 if the first string is greater than the second, and -1 if the first string is less than the second.
+	// $strcasecmp
+	// Deprecated. Use $substrBytes or $substrCP.
+	// $substr
+	// Returns the substring of a string. Starts with the character at the specified UTF-8 byte index (zero-based) in the string and continues for the specified number of bytes.
+	// $substrBytes
+	// Returns the substring of a string. Starts with the character at the specified UTF-8 code point (CP) index (zero-based) in the string and continues for the number of code points specified.
+	// $substrCP
+	// Converts a string to lowercase. Accepts a single argument expression.
+	// $toLower
+	// Converts value to a string. New in version 4.0.
+	// $toString
+	// Removes whitespace or the specified characters from the beginning and end of a string. New in version 4.0.
+	// $trim
+	// Converts a string to uppercase. Accepts a single argument expression.
+	// $toUpper
 
-//// Text Expression Operator
-// Access available per-document metadata related to the aggregation operation.
-// $meta
+	//// Text Expression Operator
+	// Access available per-document metadata related to the aggregation operation.
+	// $meta
 
-//// Timestamp Expression Operators
-/// Timestamp expression operators return values from a timestamp.
-// Returns the incrementing ordinal from a timestamp as a long. New in version 5.1.
-// $tsIncrement
-// Returns the seconds from a timestamp as a long. New in version 5.1.
-// $tsSecond
+	//// Timestamp Expression Operators
+	/// Timestamp expression operators return values from a timestamp.
+	// Returns the incrementing ordinal from a timestamp as a long. New in version 5.1.
+	// $tsIncrement
+	// Returns the seconds from a timestamp as a long. New in version 5.1.
+	// $tsSecond
 
-//// Trigonometry Expression Operators
-/// Trigonometry expressions perform trigonometric operations on numbers. Values that represent angles are always input or output in radians. Use $degreesToRadians and $radiansToDegrees to convert between degree and radian measurements.
-// Returns the sine of a value that is measured in radians.
-// $sin
-// Returns the cosine of a value that is measured in radians.
-// $cos
-// Returns the tangent of a value that is measured in radians.
-// $tan
-// Returns the inverse sin (arc sine) of a value in radians.
-// $asin
-// Returns the inverse cosine (arc cosine) of a value in radians.
-// $acos
-// Returns the inverse tangent (arc tangent) of a value in radians.
-// $atan
-// Returns the inverse tangent (arc tangent) of y / x in radians, where y and x are the first and second values passed to the expression respectively.
-// $atan2
-// Returns the inverse hyperbolic sine (hyperbolic arc sine) of a value in radians.
-// $asinh
-// Returns the inverse hyperbolic cosine (hyperbolic arc cosine) of a value in radians.
-// $acosh
-// Returns the inverse hyperbolic tangent (hyperbolic arc tangent) of a value in radians.
-// $atanh
-// Returns the hyperbolic sine of a value that is measured in radians.
-// $sinh
-// Returns the hyperbolic cosine of a value that is measured in radians.
-// $cosh
-// Returns the hyperbolic tangent of a value that is measured in radians.
-// $tanh
-// Converts a value from degrees to radians.
-// $degreesToRadians
-// Converts a value from radians to degrees.
-// $radiansToDegrees
+	//// Trigonometry Expression Operators
+	/// Trigonometry expressions perform trigonometric operations on numbers. Values that represent angles are always input or output in radians. Use $degreesToRadians and $radiansToDegrees to convert between degree and radian measurements.
+	// Returns the sine of a value that is measured in radians.
+	// $sin
+	// Returns the cosine of a value that is measured in radians.
+	// $cos
+	// Returns the tangent of a value that is measured in radians.
+	// $tan
+	// Returns the inverse sin (arc sine) of a value in radians.
+	// $asin
+	// Returns the inverse cosine (arc cosine) of a value in radians.
+	// $acos
+	// Returns the inverse tangent (arc tangent) of a value in radians.
+	// $atan
+	// Returns the inverse tangent (arc tangent) of y / x in radians, where y and x are the first and second values passed to the expression respectively.
+	// $atan2
+	// Returns the inverse hyperbolic sine (hyperbolic arc sine) of a value in radians.
+	// $asinh
+	// Returns the inverse hyperbolic cosine (hyperbolic arc cosine) of a value in radians.
+	// $acosh
+	// Returns the inverse hyperbolic tangent (hyperbolic arc tangent) of a value in radians.
+	// $atanh
+	// Returns the hyperbolic sine of a value that is measured in radians.
+	// $sinh
+	// Returns the hyperbolic cosine of a value that is measured in radians.
+	// $cosh
+	// Returns the hyperbolic tangent of a value that is measured in radians.
+	// $tanh
+	// Converts a value from degrees to radians.
+	// $degreesToRadians
+	// Converts a value from radians to degrees.
+	// $radiansToDegrees
 
-//// Type Expression Operators
-/// Converts a value to a specified type.
-// Converts a value to a specified type. New in version 4.0.
-// $convert
-// Returns boolean true if the specified expression resolves to an integer, decimal, double, or long. Returns boolean false if the expression resolves to any other BSON type, null, or a missing field. New in version 4.4.
-// $isNumber
-// Converts value to a boolean. New in version 4.0.
-// $toBool
-// Converts value to a Date. New in version 4.0.
-// $toDate
-// Converts value to a Decimal128. New in version 4.0.
-// $toDecimal
-// Converts value to a double. New in version 4.0.
-// $toDouble
-// Converts value to an integer. New in version 4.0.
-// $toInt
-// Converts value to a long. New in version 4.0.
-// $toLong
-// Converts value to an ObjectId. New in version 4.0.
-// $toObjectId
-// Converts value to a string. New in version 4.0.
-// $toString
-// Return the BSON data type of the field.
-// $type
+	//// Type Expression Operators
+	/// Converts a value to a specified type.
+	// Converts a value to a specified type. New in version 4.0.
+	// $convert
+	// Returns boolean true if the specified expression resolves to an integer, decimal, double, or long. Returns boolean false if the expression resolves to any other BSON type, null, or a missing field. New in version 4.4.
+	// $isNumber
+	// Converts value to a boolean. New in version 4.0.
+	// $toBool
+	// Converts value to a Date. New in version 4.0.
+	// $toDate
+	// Converts value to a Decimal128. New in version 4.0.
+	// $toDecimal
+	// Converts value to a double. New in version 4.0.
+	// $toDouble
+	// Converts value to an integer. New in version 4.0.
+	// $toInt
+	// Converts value to a long. New in version 4.0.
+	// $toLong
+	// Converts value to an ObjectId. New in version 4.0.
+	// $toObjectId
+	// Converts value to a string. New in version 4.0.
+	// $toString
+	// Return the BSON data type of the field.
+	// $type
 
-//// Accumulators ($group, $bucket, $bucketAuto, $setWindowFields)
-/// Aggregation accumulator operators:
-// Returns the result of a user-defined accumulator function.
-// $accumulator
-// Returns an array of unique expression values for each group. Order of the array elements is undefined. Changed in version 5.0: Available in $setWindowFields stage.
-// $addToSet
-// Returns an average of numerical values. Ignores non-numeric values. Changed in version 5.0: Available in $setWindowFields stage.
-// $avg
-// Returns the bottom element within a group according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
-// $bottom
-// Returns an aggregation of the bottom n fields within a group, according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
-// $bottomN
-// Returns the number of documents in a group. Distinct from the $count pipeline stage. New in version 5.0: Available in $group and $setWindowFields stages.
-// $count
-// Returns a value from the first document for each group. Order is only defined if the documents are sorted. Distinct from the $first array operator. Changed in version 5.0: Available in $setWindowFields stage.
-// $first
-// Returns an aggregation of the first n elements within a group. Only meaningful when documents are in a defined order. Distinct from the $firstN array operator. New in version 5.2: Available in $group, expression and $setWindowFields stages.
-// $firstN
-// Returns a value from the last document for each group. Order is only defined if the documents are sorted. Distinct from the $last array operator. Changed in version 5.0: Available in $setWindowFields stage.
-// $last
-// Returns an aggregation of the last n elements within a group. Only meaningful when documents are in a defined order. Distinct from the $lastN array operator. New in version 5.2: Available in $group, expression and $setWindowFields stages.
-// $lastN
-// Returns the highest expression value for each group. Changed in version 5.0: Available in $setWindowFields stage.
-// $max
-// Returns an aggregation of the n maximum valued elements in a group. Distinct from the $maxN array operator. New in version 5.2. Available in $group, $setWindowFields and as an expression.
-// $maxN
-// Returns a document created by combining the input documents for each group.
-// $mergeObjects
-// Returns the lowest expression value for each group. Changed in version 5.0: Available in $setWindowFields stage.
-// $min
-// Returns an array of expression values for documents in each group. Changed in version 5.0: Available in $setWindowFields stage.
-// $push
-// Returns the population standard deviation of the input values. Changed in version 5.0: Available in $setWindowFields stage.
-// $stdDevPop
-// Returns the sample standard deviation of the input values. Changed in version 5.0: Available in $setWindowFields stage.
-// $stdDevSamp
-// Returns a sum of numerical values. Ignores non-numeric values. Changed in version 5.0: Available in $setWindowFields stage.
-// $sum
-// Returns the top element within a group according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
-// $top
-// Returns an aggregation of the top n fields within a group, according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
-// $topN
+	//// Accumulators ($group, $bucket, $bucketAuto, $setWindowFields)
+	/// Aggregation accumulator operators:
+	// Returns the result of a user-defined accumulator function.
+	// $accumulator
+	// Returns an array of unique expression values for each group. Order of the array elements is undefined. Changed in version 5.0: Available in $setWindowFields stage.
+	// $addToSet
+	// Returns an average of numerical values. Ignores non-numeric values. Changed in version 5.0: Available in $setWindowFields stage.
+	// $avg
+	// Returns the bottom element within a group according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
+	// $bottom
+	// Returns an aggregation of the bottom n fields within a group, according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
+	// $bottomN
+	// Returns the number of documents in a group. Distinct from the $count pipeline stage. New in version 5.0: Available in $group and $setWindowFields stages.
+	// $count
+	// Returns a value from the first document for each group. Order is only defined if the documents are sorted. Distinct from the $first array operator. Changed in version 5.0: Available in $setWindowFields stage.
+	// $first
+	// Returns an aggregation of the first n elements within a group. Only meaningful when documents are in a defined order. Distinct from the $firstN array operator. New in version 5.2: Available in $group, expression and $setWindowFields stages.
+	// $firstN
+	// Returns a value from the last document for each group. Order is only defined if the documents are sorted. Distinct from the $last array operator. Changed in version 5.0: Available in $setWindowFields stage.
+	// $last
+	// Returns an aggregation of the last n elements within a group. Only meaningful when documents are in a defined order. Distinct from the $lastN array operator. New in version 5.2: Available in $group, expression and $setWindowFields stages.
+	// $lastN
+	// Returns the highest expression value for each group. Changed in version 5.0: Available in $setWindowFields stage.
+	// $max
+	// Returns an aggregation of the n maximum valued elements in a group. Distinct from the $maxN array operator. New in version 5.2. Available in $group, $setWindowFields and as an expression.
+	// $maxN
+	// Returns a document created by combining the input documents for each group.
+	// $mergeObjects
+	// Returns the lowest expression value for each group. Changed in version 5.0: Available in $setWindowFields stage.
+	// $min
+	// Returns an array of expression values for documents in each group. Changed in version 5.0: Available in $setWindowFields stage.
+	// $push
+	// Returns the population standard deviation of the input values. Changed in version 5.0: Available in $setWindowFields stage.
+	// $stdDevPop
+	// Returns the sample standard deviation of the input values. Changed in version 5.0: Available in $setWindowFields stage.
+	// $stdDevSamp
+	// Returns a sum of numerical values. Ignores non-numeric values. Changed in version 5.0: Available in $setWindowFields stage.
+	// $sum
+	// Returns the top element within a group according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
+	// $top
+	// Returns an aggregation of the top n fields within a group, according to the specified sort order. New in version 5.2. Available in $group and $setWindowFields stages.
+	// $topN
 
-//// Accumulators (in Other Stages)
-/// Some operators that are available as accumulators for the $group stage are also available for use in other stages but not as accumulators. When used in these other stages, these operators do not maintain their state and can take as input either a single argument or multiple arguments. For details, refer to the specific operator page.
-// Returns an average of the specified expression or list of expressions for each document. Ignores non-numeric values.
-// $avg
-// Returns the maximum of the specified expression or list of expressions for each document
-// $max
-// Returns the minimum of the specified expression or list of expressions for each document
-// $min
-// Returns the population standard deviation of the input values.
-// $stdDevPop
-// Returns the sample standard deviation of the input values.
-// $stdDevSamp
-// Returns a sum of numerical values. Ignores non-numeric values.
-// $sum
+	//// Accumulators (in Other Stages)
+	/// Some operators that are available as accumulators for the $group stage are also available for use in other stages but not as accumulators. When used in these other stages, these operators do not maintain their state and can take as input either a single argument or multiple arguments. For details, refer to the specific operator page.
+	// Returns an average of the specified expression or list of expressions for each document. Ignores non-numeric values.
+	// $avg
+	// Returns the maximum of the specified expression or list of expressions for each document
+	// $max
+	// Returns the minimum of the specified expression or list of expressions for each document
+	// $min
+	// Returns the population standard deviation of the input values.
+	// $stdDevPop
+	// Returns the sample standard deviation of the input values.
+	// $stdDevSamp
+	// Returns a sum of numerical values. Ignores non-numeric values.
+	// $sum
 
-//// Variable Expression Operators
-/// Defines variables for use within the scope of a subexpression and returns the result of the subexpression. Accepts named parameters.
-// Defines variables for use within the scope of a subexpression and returns the result of the subexpression. Accepts named parameters. Accepts any number of argument expressions.
-// $let
+	//// Variable Expression Operators
+	// Defines variables for use within the scope of a subexpression and returns the result of the subexpression. Accepts named parameters. Accepts any number of argument expressions.
+	| {
+			$let: {
+				vars: Record<string, Operator>;
+				in: Operator;
+			};
+	  };
 
 //// Window Operators
 /// New in version 5.0.

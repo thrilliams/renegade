@@ -23,7 +23,7 @@ export function assertNotNull<T>(v: T): asserts v is NonNullable<T> {
 	if (v === null) throw `value ${v} must not be null!`;
 }
 
-export function assertObject(v: any): asserts v is Record<string | number | symbol, any> {
+export function assertObject(v: any): asserts v is Record<string, any> {
 	if (typeof v !== 'object' || v instanceof Array) throw `value ${v} must be an object!`;
 }
 
