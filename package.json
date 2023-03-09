@@ -1,0 +1,5 @@
+{
+	"name": "renegade",
+	"module": "src/index.ts",
+	"type": "module"
+}
