@@ -22,8 +22,8 @@ export const resolveOperator = (
 	if (typeof operator === 'boolean' || typeof operator === 'number' || operator === null)
 		return operator;
 	if (typeof operator === 'string') {
-		if (operator.startsWith('$$')) return context[operator.slice(2)];
-		if (operator.startsWith('$')) return data[operator.slice(1)];
+		if (operator.startsWith('$$')) return resolveDotNotation(context, operator.slice(2));
+		if (operator.startsWith('$')) return resolveDotNotation(data, operator.slice(1));
 		else return operator;
 	}
 	// if v is an array, iterate over it
