@@ -181,12 +181,10 @@ export type Operator =
 				| [Operator, Operator, Operator];
 	  }
 	// Returns either the non-null result of the first expression or the result of the second expression if the first expression results in a null result. Null result encompasses instances of undefined values or missing fields. Accepts two expressions as arguments. The result of the second expression can be null.
-	// $ifNull
 	| {
 			$ifNull: [...Operator[], Operator];
 	  }
 	// Evaluates a series of case expressions. When it finds an expression which evaluates to true, $switch executes a specified expression and breaks out of the control flow.
-	// $switch
 	| {
 			$switch: {
 				branches: {

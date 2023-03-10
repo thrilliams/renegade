@@ -658,22 +658,25 @@ export const resolveOperator = (
 
 	// Conditional Expression Operators
 	if ('$cond' in operator) {
-		const value = resolveOperator(operator.$cond, data, context);
-		if (typeof value !== 'object') throw `$cond must be an array or an object!`;
+		if (typeof operator.$cond !== 'object') throw `$cond must be an array or an object!`;
 
-		let ifParam, thenParam, elseParam;
-		if (value instanceof Array) {
-			assertTuple(value, 3);
-			[ifParam, thenParam, elseParam] = value;
+		let ifOp, thenOp, elseOp;
+		if (operator.$cond instanceof Array) {
+			assertTuple(operator.$cond, 3);
+			[ifOp, thenOp, elseOp] = operator.$cond;
 		} else {
-			assertKeys(value, ['if', 'then', 'else']);
-			ifParam = value.if;
-			thenParam = value.then;
-			elseParam = value.else;
+			assertKeys(operator.$cond, ['if', 'then', 'else']);
+			ifOp = operator.$cond.if;
+			thenOp = operator.$cond.then;
+			elseOp = operator.$cond.else;
 		}
 
+		const ifParam = resolveOperator(ifOp, data, context);
+
 		assertBoolean(ifParam);
-		return ifParam ? thenParam : elseParam;
+		return ifParam
+			? resolveOperator(thenOp, data, context)
+			: resolveOperator(elseOp, data, context);
 	}
 
 	if ('$ifNull' in operator) {
@@ -686,6 +689,7 @@ export const resolveOperator = (
 	}
 
 	if ('$switch' in operator) {
+		// TODO: refactor to only evaluate branches when valid
 		const value = resolveOperator(operator.$switch, data, context);
 		assertKeys(value, ['branches'], ['default']);
 
