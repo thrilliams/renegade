@@ -858,7 +858,8 @@ export const resolveOperator = (
 
 		let string = '';
 		for (const item of value) {
-			assertString(item);
+			if (typeof item === 'object')
+				throw `$concat param ${item} cannot be an object or array!`;
 			string += item;
 		}
 		return string;
