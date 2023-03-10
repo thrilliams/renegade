@@ -312,7 +312,7 @@ export type Operator =
 	//// String Expression Operators
 	/// String expressions, with the exception of $concat, only have a well-defined behavior for strings of ASCII characters.
 	// Concatenates any number of strings.
-	// $concat
+	| { $concat: Operator[] }
 	// Converts a date/time string to a date object.
 	// $dateFromString
 	// Returns the date as a formatted string.
@@ -320,11 +320,16 @@ export type Operator =
 	// Searches a string for an occurrence of a substring and returns the UTF-8 byte index of the first occurrence. If the substring is not found, returns -1.
 	// $indexOfBytes
 	// Searches a string for an occurrence of a substring and returns the UTF-8 code point index of the first occurrence. If the substring is not found, returns -1
-	// $indexOfCP
+	// | {
+	// 		$indexOfCP:
+	// 			| [Operator, Operator]
+	// 			| [Operator, Operator, Operator]
+	// 			| [Operator, Operator, Operator, Operator];
+	//   }
 	// Removes whitespace or the specified characters from the beginning of a string. New in version 4.0.
-	// $ltrim
+	// | { $ltrim: { input: Operator; chars?: Operator } }
 	// Applies a regular expression (regex) to a string and returns information on the first matched substring. New in version 4.2.
-	// $regexFind
+	// | { $regexFind: { input: Operator; regex: Operator; options?: Operator } }
 	// Applies a regular expression (regex) to a string and returns information on the all matched substrings. New in version 4.2.
 	// $regexFindAll
 	// Applies a regular expression (regex) to a string and returns a boolean that indicates if a match is found or not. New in version 4.2.
