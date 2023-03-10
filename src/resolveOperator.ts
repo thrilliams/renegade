@@ -851,6 +851,19 @@ export const resolveOperator = (
 		return [...first];
 	}
 
+	// String Expression Operators
+	if ('$concat' in operator) {
+		const value = resolveOperator(operator.$concat, data, context);
+		assertArray(value);
+
+		let string = '';
+		for (const item of value) {
+			assertString(item);
+			string += item;
+		}
+		return string;
+	}
+
 	// Variable Expression Operators
 	if ('$let' in operator) {
 		assertKeys(operator.$let, ['vars', 'in']);
