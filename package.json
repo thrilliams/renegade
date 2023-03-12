@@ -1,6 +1,15 @@
 {
-	"name": "renegade",
-	"module": "src/index.ts",
+	"name": "renegade-js",
+	"version": "1.0.0",
+	"description": "🐘 MongoDB aggregation operators, now without MongoDB!",
+	"homepage": "https://github.com/thrilliams/reneagde",
+	"bugs": "https://github.com/thrilliams/reneagde/issues",
+	"author": "soren <soren@aethre.com> (https://aethre.co/)",
 	"main": "src/index.ts",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thrilliams/reneagde.git"
+	},
+	"module": "src/index.ts",
 	"type": "module"
 }
