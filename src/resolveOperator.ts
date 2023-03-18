@@ -13,6 +13,7 @@ import { resolveDotNotation } from './resolveDotNotation';
 import { resolveObject } from './resolveObject';
 import { JsonSerializable } from './types/JsonSerializable';
 import type { Operator } from './types/Operator';
+import at from 'array.prototype.at';
 
 export const resolveOperator = (
 	operator: Operator,
@@ -200,7 +201,7 @@ export const resolveOperator = (
 		if (array === null) return null;
 		assertArray(array);
 		assertInteger(idx);
-		return array.at(idx) || null;
+		return at(array, idx) || null;
 	}
 
 	if ('$arrayToObject' in operator) {
@@ -274,7 +275,7 @@ export const resolveOperator = (
 	if ('$first' in operator) {
 		const value = resolveOperator(operator.$first, data, context);
 		assertArray(value);
-		return value.at(0) || null;
+		return at(value, 0) || null;
 	}
 
 	if ('$firstN' in operator) {
@@ -321,7 +322,7 @@ export const resolveOperator = (
 	if ('$last' in operator) {
 		const value = resolveOperator(operator.$last, data, context);
 		assertArray(value);
-		return value.at(-1) || null;
+		return at(value, -1) || null;
 	}
 
 	if ('$lastN' in operator) {
