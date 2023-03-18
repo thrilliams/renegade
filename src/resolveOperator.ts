@@ -9,11 +9,11 @@ import {
 	assertString,
 	assertTuple
 } from './assert';
+import { at } from './at';
 import { resolveDotNotation } from './resolveDotNotation';
 import { resolveObject } from './resolveObject';
 import { JsonSerializable } from './types/JsonSerializable';
 import type { Operator } from './types/Operator';
-import at from 'array.prototype.at';
 
 export const resolveOperator = (
 	operator: Operator,
